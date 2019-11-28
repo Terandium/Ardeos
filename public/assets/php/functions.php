@@ -54,7 +54,7 @@ function getUser($id) {
 	$result = mysqli_query($mysqli, $query);
 	if ($result->num_rows > 0) {
     while ($row = mysqli_fetch_array($result)) {
-      $ret['id'] = $row['id'];
+      $ret['id'] = $id;
       $ret['created_at'] = $row['created_at'];
       $ret['edited_at'] = $row['edited_at'];
     }
@@ -85,5 +85,44 @@ function getUserMeta($id) {
     $ret['username'] = "Anonymous#420";
   }
   return $ret;
+}
+
+function registerUser($data) {
+  if($data['fname'] != null && $data['lname'] != null && $data['email'] != null && $data['username'] != null && $data['password'] != null) {
+    include_once 'database.php';
+    $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
+    
+    if ($insert_stmt = $mysqli->prepare("INSERT INTO user (password) VALUES (?)")) {
+      $insert_stmt->bind_param('s', $data['password']);
+      if ($insert_stmt->execute()) {
+        $data['id'] = $mysqli->insert_id;
+        
+        if ($insert_stmt = $mysqli->prepare("INSERT INTO usermeta (id, firstname, lastname, username, email) VALUES (?, ?, ?, ?, ?)")) {
+          $insert_stmt->bind_param('issss', $data['id'], $data['fname'], $data['lname'], $data['username'], $data['email']);
+          if ($insert_stmt->execute()) {
+            return $data;
+          }
+        }
+      }
+    }
+    return false;
+  }
+}
+
+function loginProtected() {
+  session_start();
+  if(isset($_SESSION["userid"])) {
+    $user = getUser($_SESSION["userid"]);
+    if($user['id'] == -1) {
+      $loc = "login.php";     
+      header('Location: ' . $loc);
+    }
+  } else {
+    $loc = "login.php";
+    //if($_SERVER['HTTP_REFERER'] != null) {
+    //  $loc = $_SERVER['HTTP_REFERER'];
+    //}
+    header('Location: ' . $loc);
+  }
 }
 ?>

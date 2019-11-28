@@ -1,6 +1,7 @@
 <?php
   include 'assets/php/functions.php';
-  loginProtected();
+  session_start();
+   //Login script
 ?>
 
 <!doctype html>
@@ -17,7 +18,7 @@
   </head>
   <body>
     <?php include('assets/php/header.php'); ?>
-    <h1>Ardeos uploader</h1>
+    <h1>Ardeos login</h1>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

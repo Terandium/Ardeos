@@ -1,9 +1,6 @@
 <?php
   include 'assets/php/functions.php';
-  session_start();
-  if(isset($_SESSION["userid"])) {
-    $user = getUser($_SESSION["userid"]);
-  }
+  loginProtected();
 ?>
 
 <!doctype html>
