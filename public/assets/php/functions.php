@@ -1,4 +1,7 @@
 <?php
+use ReallySimpleJWT\Token;
+require $_SERVER['DOCUMENT_ROOT'] . '/../vendor/autoload.php';
+
 function getVideo($id) {
   include_once 'database.php';
   $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
@@ -87,7 +90,8 @@ function getUserMeta($id) {
   return $ret;
 }
 
-function registerUser($data) {
+function registerUser($data) {  
+  session_start();
   if($data['fname'] != null && $data['lname'] != null && $data['email'] != null && $data['username'] != null && $data['password'] != null) {
     include_once 'database.php';
     $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
@@ -100,6 +104,13 @@ function registerUser($data) {
         if ($insert_stmt = $mysqli->prepare("INSERT INTO usermeta (id, firstname, lastname, username, email) VALUES (?, ?, ?, ?, ?)")) {
           $insert_stmt->bind_param('issss', $data['id'], $data['fname'], $data['lname'], $data['username'], $data['email']);
           if ($insert_stmt->execute()) {
+            $userId = $user['id'];
+            $expiration = time() + 3600;
+            $issuer = 'localhost';
+
+            $token = Token::create($userId, SECRET, $expiration, $issuer);
+            
+            $_SESSION["token"] = $token;
             return $data;
           }
         }
@@ -109,16 +120,66 @@ function registerUser($data) {
   }
 }
 
+function loginUser($data) {
+  session_start();
+  if($data['username'] != null && $data['password'] != null) {
+    include_once 'database.php';
+    $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
+    
+    $ret = $data;
+    $ret['id'] = -1;
+    
+    $query = "SELECT * FROM usermeta WHERE username = '".$data['username']."' LIMIT 1";
+    $result = mysqli_query($mysqli, $query);
+    if ($result->num_rows > 0) {
+      while ($row = mysqli_fetch_array($result)) {
+        $ret['id'] = $row['id'];
+        $ret['firstname'] = $row['firstname'];
+        $ret['lastname'] = $row['lastname'];
+        $ret['email'] = $row['email'];
+      }
+    }
+    $query = "SELECT * FROM user WHERE id = '".$ret['id']."' LIMIT 1";
+    $result = mysqli_query($mysqli, $query);
+    if ($result->num_rows > 0) {
+      while ($row = mysqli_fetch_array($result)) {
+        $ret['password'] = $row['password'];
+      }
+    }
+    
+    if(password_verify($data['password'], $ret['password'])) {
+      $userId = $ret['id'];
+      $expiration = time() + 3600;
+      $issuer = 'localhost';
+      
+      $token = Token::create($userId, SECRET, $expiration, $issuer);
+      
+      $_SESSION["token"] = $token;
+      return $ret;
+    } else {
+      return false;
+    }
+  }
+}
+
 function loginProtected() {
   session_start();
-  if(isset($_SESSION["userid"])) {
-    $user = getUser($_SESSION["userid"]);
-    if($user['id'] == -1) {
-      $loc = "login.php";     
+  include_once 'database.php';
+  $loc = "login.php";
+  if(isset($_SESSION["token"])) {
+    $token = $_SESSION["token"];
+    if(Token::validate($token, SECRET)) {
+      $userid = Token::getPayload($token, SECRET);
+      $userid = reset($userid);
+      
+      $user = getUser($userid);
+      if($user['id'] == -1) {
+        header('Location: ' . $loc);
+      }
+    } else {
       header('Location: ' . $loc);
     }
   } else {
-    $loc = "login.php";
     //if($_SERVER['HTTP_REFERER'] != null) {
     //  $loc = $_SERVER['HTTP_REFERER'];
     //}

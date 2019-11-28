@@ -6,4 +6,6 @@ define("HOST", "localhost");     // The host you want to connect to.
 define("USER", "root");    // The database username. 
 define("PASSWORD", "");    // The database password. 
 define("DATABASE", "ardeos");    // The database name.
+
+define("SECRET", "JWT TOKEN SECRET KEY");
 ?>

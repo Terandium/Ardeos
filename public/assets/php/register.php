@@ -1,6 +1,5 @@
 <?php
 include 'functions.php';
-session_start();
 
 if($_POST["fname"] !== null && $_POST["lname"] !== null && $_POST["username"] !== null && $_POST["email"] !== null && $_POST["password"] !== null) {
   $user['fname'] = $_POST["fname"];
@@ -12,8 +11,6 @@ if($_POST["fname"] !== null && $_POST["lname"] !== null && $_POST["username"] !=
   $user = registerUser($user);
   
   if($user != false) {
-    $_SESSION["userid"] = $user['id'];
-  
     $loc = "/account.php";
     header('Location: ' . $loc);
   }

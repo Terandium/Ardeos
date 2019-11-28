@@ -1,7 +1,5 @@
 <?php
   include 'assets/php/functions.php';
-  session_start();
-   //Login script
 ?>
 
 <!doctype html>
@@ -19,6 +17,21 @@
   <body>
     <?php include('assets/php/header.php'); ?>
     <h1>Ardeos login</h1>
+    
+    <form action="assets/php/login.php" method="post">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
+      </div>
+      <div>
+        <a href="register.php">No account? Register here.</a>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
