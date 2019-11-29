@@ -21,28 +21,28 @@
     <form action="assets/php/register.php" method="post">
       <div class="form-group">
         <label for="fname">Firstname:</label>
-        <input type="text" class="form-control" name="fname" id="fname" aria-describedby="email" placeholder="Enter firstname">
+        <input type="text" class="form-control" name="fname" id="fname" aria-describedby="email" placeholder="Enter firstname" required>
         <small id="emailHelp" class="form-text text-muted">We'll never share your firstname with anyone else.</small>
       </div>
       <div class="form-group">
         <label for="lname">Lastname:</label>
-        <input type="text" class="form-control" name="lname" id="lname" aria-describedby="email" placeholder="Enter lastname">
+        <input type="text" class="form-control" name="lname" id="lname" aria-describedby="email" placeholder="Enter lastname" required>
         <small id="emailHelp" class="form-text text-muted">We'll never share your lastname with anyone else.</small>
       </div>
       <div class="form-group">
         <label for="username">Username:</label>
-        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" required>
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" class="form-control" name="email" id="email" aria-describedby="email" placeholder="Enter email">
+        <input type="email" class="form-control" name="email" id="email" aria-describedby="email" placeholder="Enter email" required>
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
+        <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" required>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Register</button>
     </form>
 
     <!-- Optional JavaScript -->

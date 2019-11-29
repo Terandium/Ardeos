@@ -10,6 +10,9 @@ if($_POST["username"] !== null && $_POST["password"] !== null) {
   if($user != false) {
     $loc = "/account.php";
     header('Location: ' . $loc);
+  } else {
+    $loc = "/login.php";
+    header('Location: ' . $loc);
   }
 }
 ?>

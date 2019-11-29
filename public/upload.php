@@ -18,6 +18,29 @@
   <body>
     <?php include('assets/php/header.php'); ?>
     <h1>Ardeos uploader</h1>
+    <form action="assets/php/upload.php" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" name="title" id="title" placeholder="Video Title" required>
+      </div>
+      <div class="form-group">
+        <label for="desc">Description:</label>
+        <input type="text" class="form-control" name="desc" id="desc" placeholder="Video Description" required>
+      </div>
+      <div class="form-group">
+        <label for="tags">Tags:</label>
+        <input type="text" class="form-control" name="tags" id="tags" placeholder="Video Tags (Separated by space or ',')" required>
+      </div>
+      <div class="form-group">
+        <label for="thumbnail">Thumbnail:</label>
+        <input type="file" class="form-control" name="thumbnail" id="thumbnail" required>
+      </div>
+      <div class="form-group">
+        <label for="video">Video:</label>
+        <input type="file" class="form-control" name="video" id="video" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -21,16 +21,16 @@
     <form action="assets/php/login.php" method="post">
       <div class="form-group">
         <label for="username">Username:</label>
-        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" required>
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
+        <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" required>
       </div>
       <div>
         <a href="register.php">No account? Register here.</a>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Login</button>
     </form>
 
     <!-- Optional JavaScript -->

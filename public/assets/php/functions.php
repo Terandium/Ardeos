@@ -186,4 +186,21 @@ function loginProtected() {
     header('Location: ' . $loc);
   }
 }
+
+function getNextVideoID() {
+  $query = "SELECT id FROM video ORDER BY id DESC LIMIT 0, 1";
+  $result = mysqli_query($mysqli, $query);
+  $id = 0;
+  if ($result->num_rows > 0) {
+    while ($row = mysqli_fetch_array($result)) {
+      $id = $row['id'];
+    }
+  }
+  $id++;
+  return $id;
+}
+
+function uploadVideo($video) {
+  //todo
+}
 ?>
